@@ -11,6 +11,10 @@ body {
   font-size: 0.95rem;
 }
 
+.navbar-home-link {
+  font-weight: 700;
+}
+
 .footer .icon-link {
     font-size: 25px;
     color: #000;
