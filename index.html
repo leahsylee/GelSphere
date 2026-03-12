@@ -1,1 +1,308 @@
-index
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="GelSphere: An omnidirectional rolling vision-based tactile sensor for online 3D reconstruction and normal force estimation.">
+  <meta name="keywords" content="GelSphere, tactile sensor, vision-based tactile sensing, 3D reconstruction, force estimation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GelSphere: Omnidirectional Rolling Vision-Based Tactile Sensor</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="#">
+        <span class="icon">
+          <i class="fas fa-home"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">GelSphere: An Omnidirectional Rolling Vision-Based Tactile Sensor for Online 3D Reconstruction and Normal Force Estimation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">IROS 2026</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="./static/paper.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="#video"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-video"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4" type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">GelSphere</span> enables omnidirectional continuous scanning of large surfaces through a unique spherical design with bearing-supported rolling gel.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video poster="./static/images/teaser.jpg" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/teaser.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="./static/images/large_surface.jpg" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/live_reconstruction.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="./static/images/force_estimation.jpg" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/actual_vs_estimated.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/bronze_frames.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/gray_frames.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/light_anim.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We present GelSphere, a spherical vision-based tactile sensor designed for real-time continuous surface scanning.
+            Unlike traditional vision-based tactile sensors that can only sense locally and are damaged when slid across surfaces,
+            and cylindrical tactile sensors that can only roll along a fixed direction, our design enables omnidirectional rolling on surfaces.
+          </p>
+          <p>
+            We accomplish this through our novel sensing system design, which has steel balls inside the sensor, forming a bearing
+            layer between the gel and the rigid housing that allows rolling motion in all axes.
+            The sensor streams tactile images through Wi-Fi, with online large-surface reconstruction capabilities.
+            We present quantitative results for both reconstruction accuracy and image fusion performance.
+          </p>
+          <p>
+            The results show that our sensor maintains geometric fidelity and high reconstruction accuracy
+            even under multi-directional rolling, enabling uninterrupted surface scanning for applications
+            such as industrial inspection and medical skin assessment.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <div id="video" class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <video controls playsinline width="100%" poster="./static/images/teaser.jpg">
+            <source src="./static/videos/teaser.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+      <!-- Sensor Design. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Sensor Design</h2>
+          <p>
+            Our novel design uses a bearing-supported rolling gel surface and a magnetically stabilized
+            internal optical module, maintaining consistent camera view during omnidirectional motion.
+            The system is self-contained and wireless, integrating camera, illumination, and battery.
+          </p>
+          <img src="./static/images/sensor_design.jpg" alt="GelSphere sensor design" style="width:100%; border-radius:10px;">
+        </div>
+      </div>
+      <!--/ Sensor Design. -->
+
+      <!-- Fabrication. -->
+      <div class="column">
+        <h2 class="title is-3">Fabrication</h2>
+        <div class="content">
+          <p>
+            GelSphere can be fabricated with different surface coatings—specular (bronze) or matte (gray)—
+            each offering distinct performance characteristics for various surface inspection tasks.
+          </p>
+          <img src="./static/images/fabricated.jpg" alt="Fabricated GelSphere sensor" style="width:100%; border-radius:10px;">
+          <img src="./static/images/fabrication_process.jpg" alt="Fabrication process" style="width:100%; border-radius:10px; margin-top:1rem;">
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered" style="margin-top: 3rem;">
+      <!-- Large Surface Reconstruction. -->
+      <div class="column">
+        <h2 class="title is-3">Large Surface Reconstruction</h2>
+        <div class="content">
+          <p>
+            Using tactile SLAM methods, GelSphere stitches contact patches together to form continuous
+            surface models in real-time. Results show planar distance drift (MAE) of 1.07–1.25 mm
+            and angular drift of 1.3°–2.7° when scanning a 75 × 32.5 mm² area.
+          </p>
+          <img src="./static/images/large_surface.jpg" alt="Large surface reconstruction" style="width:100%; border-radius:10px;">
+        </div>
+      </div>
+
+      <!-- Force Estimation. -->
+      <div class="column">
+        <h2 class="title is-3">Force Estimation</h2>
+        <div class="content">
+          <p>
+            Beyond 3D geometry, GelSphere provides normal force estimation from the tactile images,
+            enabling both shape sensing and contact force monitoring during surface scanning.
+          </p>
+          <img src="./static/images/force_estimation.jpg" alt="Force estimation results" style="width:100%; border-radius:10px;">
+          <video controls muted loop playsinline style="width:100%; border-radius:10px; margin-top:1rem;">
+            <source src="./static/videos/estimated_force_with_error.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered" style="margin-top: 3rem;">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Reconstruction Accuracy</h2>
+        <div class="content has-text-justified">
+          <p>
+            We report spatial accuracy over the entire contact area using a reference hex geometry.
+            The sensor maintains high geometric fidelity under multi-directional rolling, enabling
+            robust continuous surface scanning.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <img src="./static/images/single_and_hex.jpg" alt="Single frame and hex geometry comparison" style="max-width:100%; border-radius:10px;">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{gelsphere2026,
+  title     = {GelSphere: An Omnidirectional Rolling Vision-Based Tactile Sensor for Online 3D Reconstruction and Normal Force Estimation},
+  booktitle = {2026 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  year      = {2026},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link" href="./static/paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/nerfies/nerfies.github.io" class="external-link">
+        <i class="fas fa-code"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            Website template from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
