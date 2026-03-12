@@ -40,7 +40,7 @@ To deploy as a GitHub Pages site:
 │   ├── js/             # JavaScript (carousel, navbar)
 │   ├── images/         # Figure images
 │   ├── videos/         # Demo videos
-│   └── paper.pdf       # Conference paper
+│   └── gelsphere_paper.pdf  # Conference paper
 ```
 
 ## Citation
