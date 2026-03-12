@@ -1,0 +1,272 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.navbar {
+  box-shadow: none;
+}
+
+.navbar-item {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.95rem;
+}
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.dnerf {
+  font-variant: small-caps;
+}
+
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser {
+  font-family: 'Google Sans', sans-serif;
+}
+
+
+.publication-title {
+}
+
+.publication-note {
+  margin-top: 0.75rem;
+  color: #4a4a4a;
+}
+
+.publication-banner {
+  max-height: parent;
+
+}
+
+.publication-banner video {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  object-fit: fit;
+}
+
+.publication-header .hero-body {
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+    line-height: 1.15;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-awards {
+    color: #ff3860;
+    width: fit-content;
+    font-weight: bolder;
+}
+
+.publication-authors {
+}
+
+.publication-authors a {
+   color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-banner img {
+}
+
+.publication-authors {
+  /*color: #4286f4;*/
+}
+
+.publication-video {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+
+    overflow: hidden;
+    border-radius: 10px !important;
+}
+
+.publication-video iframe,
+.publication-video video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.publication-body img {
+}
+
+.results-carousel {
+  overflow: hidden;
+}
+
+.results-carousel .item {
+  margin: 5px;
+  overflow: hidden;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 0;
+  font-size: 0;
+}
+
+.results-carousel video {
+  margin: 0;
+}
+
+.section-heading {
+  margin-bottom: 1.75rem;
+}
+
+.overview-box {
+  padding: 2rem;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #fafbff 100%);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.06);
+}
+
+.highlight-list {
+  margin-left: 1.1rem;
+}
+
+.highlight-list li {
+  margin-bottom: 0.6rem;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1.5rem;
+}
+
+.metric-card {
+  padding: 1rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+}
+
+.metric-value {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f4b99;
+}
+
+.metric-label {
+  margin-top: 0.25rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.feature-panel {
+  height: 100%;
+  padding: 1.5rem;
+  border: 1px solid #ececec;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.feature-panel img,
+.feature-panel video,
+.rounded-image {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+.feature-panel p {
+  margin-bottom: 1rem;
+}
+
+.stacked-media img + img {
+  margin-top: 1rem;
+}
+
+.media-caption {
+  margin-top: 0.75rem;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.section-accent {
+  background: #f8f9fb;
+}
+
+.rounded-image {
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+}
+
+pre {
+  border-radius: 14px;
+}
+
+@media screen and (max-width: 768px) {
+  .overview-box {
+    padding: 1.25rem;
+  }
+
+  .metric-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.interpolation-panel {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.interpolation-panel .interpolation-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.interpolation-video-column {
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+#interpolation-image-wrapper {
+  width: 100%;
+}
+#interpolation-image-wrapper img {
+  border-radius: 5px;
+}
