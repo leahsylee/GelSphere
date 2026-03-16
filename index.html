@@ -30,9 +30,6 @@
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item navbar-home-link" href="#top">
-      GelSphere
-    </a>
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -59,25 +56,16 @@
             <span class="author-block">
               <a class="author-link" href="https://leahsylee.github.io" target="_blank" rel="noopener noreferrer">
                 <span>Seoyeon Lee</span>
-                <span class="icon is-small" aria-hidden="true">
-                  <i class="fas fa-external-link-alt"></i>
-                </span>
               </a><sup>*</sup>,
             </span>
             <span class="author-block">
               <a class="author-link" href="https://aminmirzaee.com" target="_blank" rel="noopener noreferrer">
                 <span>Mohammad Amin Mirzaee</span>
-                <span class="icon is-small" aria-hidden="true">
-                  <i class="fas fa-external-link-alt"></i>
-                </span>
               </a><sup>*</sup>,
             </span>
             <span class="author-block">
               <a class="author-link" href="https://siebelschool.illinois.edu/about/people/faculty/yuanwz" target="_blank" rel="noopener noreferrer">
                 <span>Wenzhen Yuan</span>
-                <span class="icon is-small" aria-hidden="true">
-                  <i class="fas fa-external-link-alt"></i>
-                </span>
               </a>
             </span>
           </div>
@@ -131,12 +119,11 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4" type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        <span class="dnerf">GelSphere</span> enables omnidirectional continuous scanning of large surfaces through a bearing-supported rolling gel shell and a self-contained wireless sensing stack.
-      </h2>
+      <div class="teaser-media">
+        <video id="teaser" controls autoplay muted loop playsinline poster="./static/images/teaser.jpg">
+          <source src="./static/videos/teaser.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
   </div>
 </section>
@@ -151,16 +138,7 @@
               <h2 class="title is-3">Abstract</h2>
               <div class="content has-text-justified">
                 <p>
-                  We present GelSphere, a spherical vision-based tactile sensor designed for real-time continuous surface scanning.
-                  Unlike traditional vision-based tactile sensors that can only sense locally and are damaged when slid across surfaces,
-                  and cylindrical tactile sensors that can only roll along a fixed direction, our design enables omnidirectional rolling on surfaces.
-                </p>
-                <p>
-                  This is achieved through a novel sensing system design that places steel balls inside the sensor to form a bearing layer between the gel and the rigid housing.
-                  The sensor streams tactile images over Wi-Fi and supports online large-surface reconstruction while preserving high geometric fidelity.
-                </p>
-                <p>
-                  GelSphere also estimates normal force directly from tactile imagery, allowing the system to jointly capture geometry and contact intensity during rolling interaction.
+                  We present GelSphere, a spherical vision-based tactile sensor designed for real-time continuous surface scanning. Unlike traditional vision-based tactile sensors that can only sense locally and are damaged when slid across surfaces, and cylindrical tactile sensors that can only roll along a fixed direction, our design enables omnidirectional rolling on surfaces. We accomplish this through our novel sensing system design, which has steel balls inside the sensor, forming a bearing layer between the gel and the rigid housing that allows rolling motion in all axes. The sensor streams tactile images through Wi-Fi, with online large-surface reconstruction capabilities. We present quantitative results for both reconstruction accuracy and image fusion performance. The results show that our sensor maintains geometric fidelity and high reconstruction accuracy even under multi-directional rolling, enabling uninterrupted surface scanning.
                 </p>
               </div>
             </div>
@@ -202,38 +180,38 @@
 
 <section class="hero is-light is-small" id="results">
   <div class="hero-body">
-    <div class="container">
+    <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered section-heading">System Results</h2>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item">
-          <video poster="./static/images/teaser.jpg" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/teaser.mp4" type="video/mp4">
-          </video>
+      <div class="columns is-multiline results-grid">
+        <div class="column is-half">
+          <div class="feature-panel">
+            <h2 class="title is-4">Single and Hex Reconstruction</h2>
+            <p>
+              Single-contact observations remain geometrically consistent with the reference hex target, showing that GelSphere preserves local shape accuracy while rolling across the surface.
+            </p>
+            <img src="./static/images/single_and_hex.jpg" alt="Single frame and hex geometry comparison">
+          </div>
         </div>
-        <div class="item">
-          <video poster="./static/images/large_surface.jpg" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/live_reconstruction.mp4" type="video/mp4">
-          </video>
+
+        <div class="column is-half">
+          <div class="feature-panel">
+            <h2 class="title is-4">Large-Surface Reconstruction</h2>
+            <p>
+              Rolling contact images are fused into larger tactile maps in real time, enabling continuous surface reconstruction over a 75 x 32.5 mm2 scan region.
+            </p>
+            <img src="./static/images/large_surface.jpg" alt="Large surface reconstruction">
+            <div class="media-caption">Online fusion maintains geometric consistency during multi-directional rolling.</div>
+          </div>
         </div>
-        <div class="item">
-          <video poster="./static/images/force_estimation.jpg" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/actual_vs_estimated.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item">
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/bronze_frames.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item">
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/gray_frames.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item">
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/light_anim.mp4" type="video/mp4">
-          </video>
+
+        <div class="column is-half is-offset-one-quarter">
+          <div class="feature-panel">
+            <h2 class="title is-4">Force Estimation</h2>
+            <p>
+              The same tactile observations also support normal force regression, so the sensor measures shape and contact load simultaneously during rolling interaction.
+            </p>
+            <img src="./static/images/force_estimation.jpg" alt="Force estimation results">
+          </div>
         </div>
       </div>
     </div>
@@ -242,73 +220,14 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <div class="columns is-multiline">
-      <div class="column is-half">
-        <div class="feature-panel">
-          <h2 class="title is-4">Sensor Design</h2>
-          <p>
-            The sensing skin rolls over a bearing layer while the optical module remains magnetically stabilized, preserving a consistent internal view during omnidirectional motion.
-          </p>
-          <img src="./static/images/sensor_design.jpg" alt="GelSphere sensor design">
-        </div>
-      </div>
-
-      <div class="column is-half">
-        <div class="feature-panel">
-          <h2 class="title is-4">Fabrication</h2>
-          <p>
-            GelSphere supports both specular and matte surface coatings, allowing the sensor to be tuned for different inspection targets and illumination conditions.
-          </p>
-          <div class="stacked-media">
-            <img src="./static/images/fabricated.jpg" alt="Fabricated GelSphere sensor">
-            <img src="./static/images/fabrication_process.jpg" alt="Fabrication process">
-          </div>
-        </div>
-      </div>
-
-      <div class="column is-half">
-        <div class="feature-panel">
-          <h2 class="title is-4">Large-Surface Reconstruction</h2>
-          <p>
-            Rolling contact images are fused into larger tactile maps in real time, enabling continuous surface reconstruction over a 75 x 32.5 mm2 scan region.
-          </p>
-          <img src="./static/images/large_surface.jpg" alt="Large surface reconstruction">
-          <div class="media-caption">Online fusion maintains geometric consistency during multi-directional rolling.</div>
-        </div>
-      </div>
-
-      <div class="column is-half">
-        <div class="feature-panel">
-          <h2 class="title is-4">Force Estimation</h2>
-          <p>
-            The same tactile observations also support normal force regression, so the sensor measures shape and contact load simultaneously.
-          </p>
-          <img src="./static/images/force_estimation.jpg" alt="Force estimation results">
-          <video controls muted loop playsinline>
-            <source src="./static/videos/estimated_force_with_error.mp4" type="video/mp4">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Live Reconstruction</h2>
+        <div class="publication-video">
+          <video controls playsinline width="100%" poster="./static/images/large_surface.jpg">
+            <source src="./static/videos/live_reconstruction.mp4" type="video/mp4">
           </video>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section section-accent">
-  <div class="container is-max-desktop">
-    <div class="columns is-vcentered is-variable is-6">
-      <div class="column is-half">
-        <h2 class="title is-3">Reconstruction Accuracy</h2>
-        <div class="content has-text-justified">
-          <p>
-            We report spatial accuracy across the full contact region using a reference hex geometry. The sensor preserves high geometric fidelity under multi-directional rolling, enabling robust continuous scanning instead of isolated touch measurements.
-          </p>
-          <p>
-            These results indicate that GelSphere can act as a tactile mapping platform rather than a single-contact probe, which is the central shift in capability behind the system.
-          </p>
-        </div>
-      </div>
-      <div class="column is-half has-text-centered">
-        <img class="rounded-image" src="./static/images/single_and_hex.jpg" alt="Single frame and hex geometry comparison">
       </div>
     </div>
   </div>
