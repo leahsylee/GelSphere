@@ -39,6 +39,8 @@ body {
   overflow: hidden;
   border-radius: 18px;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+  max-width: 860px;
+  margin: 0 auto;
 }
 
 .teaser-media video {
@@ -176,6 +178,10 @@ body {
   justify-content: center;
 }
 
+.section-tight-top {
+  padding-top: 0;
+}
+
 .overview-box {
   padding: 2rem;
   border-radius: 18px;
@@ -237,6 +243,21 @@ body {
 
 .feature-panel p {
   margin-bottom: 1rem;
+}
+
+.fabricated-showcase {
+  text-align: center;
+}
+
+.fabricated-showcase img {
+  width: 100%;
+  display: block;
+}
+
+.fabricated-caption {
+  margin-top: 0.9rem;
+  color: #555;
+  text-align: left;
 }
 
 .stacked-media img + img {
