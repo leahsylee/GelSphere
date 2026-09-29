@@ -1,19 +1,308 @@
-$(document).ready(function() {
-    // Check for click events on the navbar burger icon
-    $(".navbar-burger").click(function() {
-      $(".navbar-burger").toggleClass("is-active");
-      $(".navbar-menu").toggleClass("is-active");
+'use strict';
+
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function setupNavigation() {
+  const toggle = document.querySelector('.menu-toggle');
+  const links = document.querySelector('#nav-links');
+  const setOpen = open => {
+    toggle.setAttribute('aria-expanded', String(open));
+    links.dataset.menuOpen = String(open);
+  };
+  toggle.hidden = false;
+  setOpen(false);
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  links.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+}
+
+function setupAutoplay(video) {
+  let visible = !('IntersectionObserver' in window);
+  let userPaused = false;
+  let automaticPauses = 0;
+  function pauseAutomatically() {
+    if (video.paused) return;
+    ++automaticPauses;
+    video.pause();
+  }
+  function update() {
+    if (!visible || document.hidden || reducedMotion.matches) pauseAutomatically();
+    else if (!userPaused && !video.ended && video.paused) video.play().catch(() => {});
+  }
+  video.addEventListener('pause', () => {
+    if (automaticPauses) --automaticPauses;
+    else if (!video.ended) userPaused = true;
+  });
+  video.addEventListener('play', () => {
+    userPaused = false;
+    if (!visible || document.hidden) pauseAutomatically();
+  });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting && entries[0].intersectionRatio >= 0.3;
+      update();
+    }, { threshold: [0, 0.3] }).observe(video);
+  }
+  document.addEventListener('visibilitychange', update);
+  reducedMotion.addEventListener('change', update);
+}
+
+// Both animations are operated directly on the visual. Native controls remain
+// available without JS or if a media error prevents the enhancement from working.
+function setupClickAnimation({ videoId, controlId, actionId, iconId, statusId, steps, rate }) {
+  const video = document.getElementById(videoId);
+  const control = document.getElementById(controlId);
+  const action = document.getElementById(actionId);
+  const icon = document.getElementById(iconId);
+  const status = document.getElementById(statusId);
+  const guided = steps.length > 1;
+  const title = guided ? document.querySelector('#step-title') : null;
+  const description = guided ? document.querySelector('#step-description') : null;
+  const navigation = guided ? document.querySelector('.step-navigation') : null;
+  const previous = guided ? document.querySelector('#previous-step') : null;
+  const next = guided ? document.querySelector('#next-step') : null;
+  const dots = guided ? [...document.querySelectorAll('.step-dots button')] : [];
+  let selected = 0;
+  let playing = false;
+  let completed = false;
+  let hasPlayed = false;
+  let suspended = false;
+  let visible = false;
+  let failed = false;
+  let operation = 0;
+  function updateControl() {
+    const last = selected === steps.length - 1;
+    if (playing) {
+      action.textContent = 'Pause';
+      icon.textContent = 'Ⅱ';
+      control.setAttribute('aria-label', `Pause ${steps[selected].name} animation`);
+    } else if (completed) {
+      action.textContent = last ? 'Replay' : 'Continue';
+      icon.textContent = last ? '↻' : '→';
+      control.setAttribute('aria-label', last ? `Replay ${guided ? 'sensor' : 'sensing principle'} animation` : `Continue to ${steps[selected + 1].name}`);
+    } else {
+      action.textContent = hasPlayed ? 'Resume' : 'Play';
+      icon.textContent = '▷';
+      control.setAttribute('aria-label', `${hasPlayed ? 'Resume' : 'Play'} ${steps[selected].name} animation`);
+    }
+  }
+  function showStep() {
+    if (!guided) return;
+    title.textContent = steps[selected].title;
+    description.textContent = steps[selected].description;
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('is-active', index === selected);
+      if (index === selected) dot.setAttribute('aria-current', 'step');
+      else dot.removeAttribute('aria-current');
     });
+    previous.disabled = selected === 0;
+    next.disabled = selected === steps.length - 1;
+  }
+  function finish() {
+    // Ignore a queued end event if another clip has already started loading.
+    if (!playing || !video.ended) return;
+    ++operation;
+    playing = false;
+    completed = true;
+    suspended = false;
+    // Each clip holds its own final decoded frame. No seek at a stop point.
+    status.textContent = `${steps[selected].name}. Paused.`;
+    updateControl();
+  }
+  function loadStep(index) {
+    if (!steps[index].src) return;
+    video.poster = steps[index].poster;
+    video.src = steps[index].src;
+    video.load();
+  }
+  function play(index, resume = false) {
+    const currentOperation = ++operation;
+    playing = false;
+    video.pause();
+    const changed = selected !== index;
+    selected = index;
+    completed = false;
+    suspended = false;
+    showStep();
+    if (changed) loadStep(index);
+    else if (!resume) video.currentTime = 0;
+    video.playbackRate = rate;
+    playing = true;
+    hasPlayed = true;
+    status.textContent = '';
+    updateControl();
+    video.play().catch(() => {
+      if (currentOperation !== operation) return;
+      playing = false;
+      status.textContent = 'Playback paused. Activate the video to try again.';
+      updateControl();
+    });
+  }
+  function pause(forVisibility = false) {
+    if (!playing) return;
+    if (video.ended) {
+      finish();
+      return;
+    }
+    ++operation;
+    playing = false;
+    suspended = forVisibility;
+    video.pause();
+    status.textContent = 'Paused.';
+    updateControl();
+  }
+  function updateVisibility() {
+    if (!visible || document.hidden) pause(true);
+    else if (!failed && !reducedMotion.matches && (!hasPlayed || suspended) && !completed) {
+      play(selected, suspended);
+    }
+  }
 
-    var options = {
-        slidesToScroll: 1,
-        slidesToShow: 3,
-        loop: true,
-        infinite: true,
-        autoplay: false,
-        autoplaySpeed: 3000,
-    };
+  control.addEventListener('click', () => {
+    if (playing) pause();
+    else if (completed) play((selected + 1) % steps.length);
+    else play(selected, hasPlayed);
+  });
+  if (guided) {
+    previous.addEventListener('click', () => play(selected - 1));
+    next.addEventListener('click', () => play(selected + 1));
+    dots.forEach((dot, index) => dot.addEventListener('click', () => play(index)));
+    navigation.hidden = false;
+  }
+  video.addEventListener('ended', finish);
+  video.addEventListener('error', () => {
+    pause();
+    failed = true;
+    control.hidden = true;
+    if (navigation) navigation.hidden = true;
+    video.controls = true;
+    status.textContent = 'Video unavailable.';
+  });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting && entries[0].intersectionRatio >= 0.35;
+      updateVisibility();
+    }, { threshold: [0, 0.35] }).observe(control.parentElement);
+  }
+  document.addEventListener('visibilitychange', updateVisibility);
+  reducedMotion.addEventListener('change', () => {
+    if (reducedMotion.matches) pause();
+  });
+  video.loop = false;
+  video.controls = false;
+  control.hidden = false;
+  loadStep(0);
+  showStep();
+  updateControl();
+}
 
-    // Initialize carousels
-    var carousels = bulmaCarousel.attach('.carousel', options);
+function setupScrollEffects() {
+  const reveals = [...document.querySelectorAll('.reveal')];
+  const stage = document.querySelector('.scroll-stage');
+  let observer;
+  let scheduled = false;
+  const wideScreen = window.matchMedia('(min-width: 761px)');
+
+  function updateScale() {
+    scheduled = false;
+    if (reducedMotion.matches || !wideScreen.matches) {
+      stage.style.removeProperty('--scene-scale');
+      return;
+    }
+    const bounds = stage.getBoundingClientRect();
+    const progress = Math.min(1, Math.max(0, (60 - bounds.top) / Math.max(1, bounds.height - innerHeight + 60)));
+    stage.style.setProperty('--scene-scale', String(0.94 + progress * 0.1));
+  }
+  function schedule() {
+    if (!scheduled) {
+      scheduled = true;
+      requestAnimationFrame(updateScale);
+    }
+  }
+  function revealAll() {
+    observer?.disconnect();
+    reveals.forEach(element => {
+      element.classList.remove('reveal-pending');
+      element.classList.add('is-visible');
+    });
+  }
+  if (!reducedMotion.matches && 'IntersectionObserver' in window) {
+    observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        entry.target.classList.remove('reveal-pending');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -45px 0px' });
+    reveals.forEach(element => {
+      if (element.getBoundingClientRect().top >= innerHeight) {
+        element.classList.add('reveal-pending');
+        observer.observe(element);
+      }
+    });
+    // Keyboard navigation must never focus visually hidden content.
+    document.addEventListener('focusin', event => {
+      const reveal = event.target.closest('.reveal-pending');
+      if (reveal) {
+        reveal.classList.remove('reveal-pending');
+        reveal.classList.add('is-visible');
+        observer.unobserve(reveal);
+      }
+    });
+  }
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
+  reducedMotion.addEventListener('change', () => {
+    if (reducedMotion.matches) revealAll();
+    schedule();
+  });
+  updateScale();
+}
+
+function setupCitation() {
+  const button = document.querySelector('#copy-citation');
+  const code = document.querySelector('#citation-text');
+  const status = document.querySelector('#copy-status');
+  if (!navigator.clipboard) return;
+  button.hidden = false;
+  button.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(code.textContent);
+      status.textContent = 'Citation copied.';
+      button.textContent = 'Copied';
+    } catch {
+      status.textContent = 'Select and copy the citation.';
+      const range = document.createRange();
+      range.selectNodeContents(code);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  });
+}
+
+setupNavigation();
+document.querySelectorAll('[data-autoplay]').forEach(setupAutoplay);
+setupClickAnimation({
+  videoId: 'optics-video', controlId: 'optics-control', actionId: 'optics-action',
+  iconId: 'optics-icon', statusId: 'optics-status', rate: 0.65,
+  steps: [{ name: 'sensing principle' }]
 });
+setupClickAnimation({
+  videoId: 'sensor-animation', controlId: 'sensor-control', actionId: 'sensor-action',
+  iconId: 'sensor-icon', statusId: 'animation-status', rate: 0.75,
+  steps: [
+    { src: './static/videos/sensor-optical-core.mp4', poster: './static/images/sensor-optical-core.jpg', name: 'optical core', title: 'Optical core.', description: 'A camera, RGB lighting, and battery inside the sensing sphere.' },
+    { src: './static/videos/sensor-magnetic-suspension.mp4', poster: './static/images/sensor-magnetic-suspension.jpg', name: 'magnetic suspension', title: 'Magnetic suspension.', description: 'Coupling magnets stabilize the optical module while the gel shell rolls.' },
+    { src: './static/videos/sensor-ball-bearings.mp4', poster: './static/images/sensor-ball-bearings.jpg', name: 'ball bearings', title: 'Ball bearings.', description: 'A layer of steel balls supports smooth rolling in any direction.' },
+    { src: './static/videos/sensor-assembled.mp4', poster: './static/images/sensor-assembled.jpg', name: 'assembled sensor', title: 'Assembled sensor.', description: 'Self-contained sensing with wireless tactile image streaming.' }
+  ]
+});
+setupScrollEffects();
+setupCitation();
