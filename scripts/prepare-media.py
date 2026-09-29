@@ -36,8 +36,8 @@ def mechanism_clips():
     source = 'Animations/GelSphere_crossSection_withouterMagent_animation_whiteBG.mp4'
     for name, first, stop in [
         ('optical-core', 0, 25),
-        ('magnetic-suspension', 24, 73),
-        ('ball-bearings', 72, 145),
+        ('magnetic-suspension', 24, 61),
+        ('ball-bearings', 60, 145),
         ('assembled', 144, 200),
     ]:
         video = f'sensor-{name}.mp4'

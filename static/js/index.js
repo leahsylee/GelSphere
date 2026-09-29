@@ -67,6 +67,20 @@ function setupClickAnimation({ videoId, controlId, actionId, iconId, statusId, s
   const previous = guided ? document.querySelector('#previous-step') : null;
   const next = guided ? document.querySelector('#next-step') : null;
   const dots = guided ? [...document.querySelectorAll('.step-dots button')] : [];
+  const completion = guided ? document.querySelector('#sensor-complete') : null;
+  const verb = window.matchMedia('(pointer: coarse)').matches ? 'Tap' : 'Click';
+  const freeze = guided ? document.createElement('canvas') : null;
+  let frameCallback = null;
+  let fallbackRelease = null;
+  let decodedFrame = false;
+  if (freeze) {
+    freeze.className = 'sensor-freeze';
+    freeze.hidden = true;
+    freeze.setAttribute('aria-hidden', 'true');
+    video.after(freeze);
+    // Warm adjacent posters without decoding extra video players.
+    steps.forEach(step => { const poster = new Image(); poster.src = step.poster; });
+  }
   let selected = 0;
   let playing = false;
   let completed = false;
@@ -77,22 +91,25 @@ function setupClickAnimation({ videoId, controlId, actionId, iconId, statusId, s
   let operation = 0;
   function updateControl() {
     const last = selected === steps.length - 1;
+    control.dataset.state = playing ? 'playing' : completed && last ? 'complete' : 'waiting';
+    if (completion) completion.hidden = !(completed && last);
     if (playing) {
-      action.textContent = 'Pause';
+      action.textContent = `${verb} to pause`;
       icon.textContent = 'Ⅱ';
       control.setAttribute('aria-label', `Pause ${steps[selected].name} animation`);
     } else if (completed) {
-      action.textContent = last ? 'Replay' : 'Continue';
+      action.textContent = last ? (guided ? 'Restart animation' : `${verb} to replay`) : `${verb} to continue`;
       icon.textContent = last ? '↻' : '→';
-      control.setAttribute('aria-label', last ? `Replay ${guided ? 'sensor' : 'sensing principle'} animation` : `Continue to ${steps[selected + 1].name}`);
+      control.setAttribute('aria-label', last ? `${guided ? 'Restart sensor' : 'Replay sensing principle'} animation` : `Continue to ${steps[selected + 1].name}`);
     } else {
-      action.textContent = hasPlayed ? 'Resume' : 'Play';
+      action.textContent = `${verb} to ${hasPlayed ? 'resume' : 'play'}`;
       icon.textContent = '▷';
       control.setAttribute('aria-label', `${hasPlayed ? 'Resume' : 'Play'} ${steps[selected].name} animation`);
     }
   }
   function showStep() {
     if (!guided) return;
+    video.dataset.stage = String(selected);
     title.textContent = steps[selected].title;
     description.textContent = steps[selected].description;
     dots.forEach((dot, index) => {
@@ -111,11 +128,48 @@ function setupClickAnimation({ videoId, controlId, actionId, iconId, statusId, s
     completed = true;
     suspended = false;
     // Each clip holds its own final decoded frame. No seek at a stop point.
-    status.textContent = `${steps[selected].name}. Paused.`;
+    status.textContent = guided && selected === steps.length - 1
+      ? 'Assembly complete. Restart the animation or scroll to explore the exploded view.'
+      : `${steps[selected].name}. Paused.`;
     updateControl();
   }
-  function loadStep(index) {
+  function cancelFrameRelease() {
+    if (frameCallback !== null) video.cancelVideoFrameCallback(frameCallback);
+    frameCallback = null;
+    if (fallbackRelease) video.removeEventListener('timeupdate', fallbackRelease);
+    fallbackRelease = null;
+  }
+  function holdFrame() {
+    cancelFrameRelease();
+    if (!freeze || !freeze.hidden || !decodedFrame || video.readyState < 2) return;
+    freeze.width = video.videoWidth;
+    freeze.height = video.videoHeight;
+    freeze.getContext('2d').drawImage(video, 0, 0);
+    freeze.hidden = false;
+  }
+  function releaseOnFrame(currentOperation) {
+    const release = () => {
+      frameCallback = null;
+      if (currentOperation !== operation) return;
+      decodedFrame = true;
+      if (freeze) freeze.hidden = true;
+    };
+    if ('requestVideoFrameCallback' in video) frameCallback = video.requestVideoFrameCallback(release);
+    else {
+      fallbackRelease = () => {
+        if (video.readyState < 2 || video.seeking) return;
+        video.removeEventListener('timeupdate', fallbackRelease);
+        fallbackRelease = null;
+        release();
+      };
+      video.addEventListener('timeupdate', fallbackRelease);
+    }
+  }
+  function loadStep(index, preserveFrame = true) {
     if (!steps[index].src) return;
+    if (preserveFrame) holdFrame();
+    else { cancelFrameRelease(); if (freeze) freeze.hidden = true; }
+    decodedFrame = false;
     video.poster = steps[index].poster;
     video.src = steps[index].src;
     video.load();
@@ -130,12 +184,14 @@ function setupClickAnimation({ videoId, controlId, actionId, iconId, statusId, s
     suspended = false;
     showStep();
     if (changed) loadStep(index);
-    else if (!resume) video.currentTime = 0;
+    else if (!resume) { holdFrame(); video.currentTime = 0; }
     video.playbackRate = rate;
     playing = true;
     hasPlayed = true;
     status.textContent = '';
     updateControl();
+    cancelFrameRelease();
+    releaseOnFrame(currentOperation);
     video.play().catch(() => {
       if (currentOperation !== operation) return;
       playing = false;
@@ -177,6 +233,8 @@ function setupClickAnimation({ videoId, controlId, actionId, iconId, statusId, s
   video.addEventListener('ended', finish);
   video.addEventListener('error', () => {
     pause();
+    cancelFrameRelease();
+    if (freeze) freeze.hidden = true;
     failed = true;
     control.hidden = true;
     if (navigation) navigation.hidden = true;
@@ -199,6 +257,24 @@ function setupClickAnimation({ videoId, controlId, actionId, iconId, statusId, s
   loadStep(0);
   showStep();
   updateControl();
+  return {
+    holdAssembled() {
+      if (!guided || (selected === steps.length - 1 && completed)) return;
+      ++operation;
+      playing = false;
+      suspended = false;
+      selected = steps.length - 1;
+      completed = true;
+      hasPlayed = true;
+      video.pause();
+      loadStep(selected, false);
+      // A poster holds the exact final pose without seeking across the clip.
+      video.poster = './static/images/sensor-assembled-end.jpg';
+      status.textContent = '';
+      showStep();
+      updateControl();
+    }
+  };
 }
 
 function setupScrollEffects() {
@@ -294,13 +370,13 @@ setupClickAnimation({
   iconId: 'optics-icon', statusId: 'optics-status', rate: 0.65,
   steps: [{ name: 'sensing principle' }]
 });
-setupClickAnimation({
+const mechanismPlayer = setupClickAnimation({
   videoId: 'sensor-animation', controlId: 'sensor-control', actionId: 'sensor-action',
   iconId: 'sensor-icon', statusId: 'animation-status', rate: 0.75,
   steps: [
     { src: './static/videos/sensor-optical-core.mp4', poster: './static/images/sensor-optical-core.jpg', name: 'optical core', title: 'Optical core.', description: 'A camera, RGB lighting, and battery inside the sensing sphere.' },
-    { src: './static/videos/sensor-magnetic-suspension.mp4', poster: './static/images/sensor-magnetic-suspension.jpg', name: 'magnetic suspension', title: 'Magnetic suspension.', description: 'Coupling magnets stabilize the optical module while the gel shell rolls.' },
-    { src: './static/videos/sensor-ball-bearings.mp4', poster: './static/images/sensor-ball-bearings.jpg', name: 'ball bearings', title: 'Ball bearings.', description: 'A layer of steel balls supports smooth rolling in any direction.' },
+    { src: './static/videos/sensor-magnetic-suspension.mp4?v=8f941d1a', poster: './static/images/sensor-magnetic-suspension.jpg?v=0282d768', name: 'magnetic suspension', title: 'Magnetic suspension.', description: 'Coupling magnets stabilize the optical module while the gel shell rolls.' },
+    { src: './static/videos/sensor-ball-bearings.mp4?v=62fff951', poster: './static/images/sensor-ball-bearings.jpg?v=439a4cc0', name: 'ball bearings', title: 'Ball bearings.', description: 'A layer of steel balls supports smooth rolling in any direction.' },
     { src: './static/videos/sensor-assembled.mp4', poster: './static/images/sensor-assembled.jpg', name: 'assembled sensor', title: 'Assembled sensor.', description: 'Self-contained sensing with wireless tactile image streaming.' }
   ]
 });

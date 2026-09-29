@@ -7,8 +7,9 @@
   <meta name="theme-color" content="#ffffff">
   <title>GelSphere · IROS 2026</title>
   <link rel="icon" href="./static/images/favicon.svg">
-  <link rel="stylesheet" href="./static/css/index.css?v=f73ed690">
-  <script defer src="./static/js/index.js?v=ceb51b05"></script>
+  <link rel="stylesheet" href="./static/css/index.css?v=aa4d1507">
+  <script defer src="./static/js/index.js?v=fab7420c"></script>
+  <script defer src="./static/js/exploded.js?v=c9b16586"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -65,8 +66,10 @@
       </div>
     </section>
 
-    <section class="section mechanism" id="mechanism" aria-labelledby="mechanism-title">
-      <div class="section-heading content-width reveal"><h2 id="mechanism-title">Rolling mechanism.</h2></div>
+    <section class="sensor-design" aria-label="Sensor design">
+    <div class="section mechanism" id="mechanism" role="region" aria-labelledby="mechanism-title">
+      <div class="mechanism-pin">
+      <div class="section-heading story-heading content-width reveal"><h2 id="mechanism-title">Rolling mechanism.</h2><h2 id="exploded-title" aria-hidden="true" hidden>Exploded view.</h2></div>
       <div class="sensor-scene reveal">
         <video id="sensor-animation" muted playsinline preload="metadata" controls poster="./static/images/sensor-poster.jpg" aria-label="GelSphere assembly animation" aria-describedby="step-description">
           <source src="./static/videos/sensor-assembly.mp4" type="video/mp4">
@@ -86,28 +89,53 @@
           </div>
         </div>
         <button class="video-hit-area" id="sensor-control" type="button" aria-label="Play optical core animation" aria-describedby="step-description" hidden>
-          <span class="video-action"><span id="sensor-action">Play</span><span class="action-icon" id="sensor-icon" aria-hidden="true">▷</span></span>
+          <span class="video-action"><span class="action-copy"><span class="completion-note" id="sensor-complete" hidden>Assembly complete · scroll to explore</span><span id="sensor-action">Click to play</span></span><span class="action-icon" id="sensor-icon" aria-hidden="true">▷</span></span>
         </button>
         <span class="sr-only" id="animation-status" role="status"></span>
+        <div class="explosion-layer" hidden>
+          <div class="explosion-media">
+            <video id="exploded-video" muted playsinline preload="none" poster="./static/images/sensor-exploded-start.jpg" aria-label="GelSphere opening from the assembled sensor into its exploded components" aria-hidden="true">
+              <source src="./static/videos/sensor-exploded.mp4" type="video/mp4">
+            </video>
+            <svg id="exploded-labels" class="exploded-labels" viewBox="0 0 1000 1000" role="img" aria-label="Cap, gel pad, LED ring, base, magnets, camera, battery, magnetic switch, steel balls, and housing" aria-hidden="true">
+              <g><text x="238" y="112" text-anchor="end">Cap</text><path d="M250 105 H337"/><circle cx="337" cy="105" r="2.5"/></g>
+              <g><text x="268" y="228" text-anchor="end">Gel pad</text><path d="M280 220 H383"/><circle cx="383" cy="220" r="2.5"/></g>
+              <g><text x="278" y="312" text-anchor="end">LED ring</text><path d="M290 305 H404"/><circle cx="404" cy="305" r="2.5"/></g>
+              <g><text x="268" y="397" text-anchor="end">Base</text><path d="M280 390 H398"/><circle cx="398" cy="390" r="2.5"/></g>
+              <g><text x="700" y="407">Magnet</text><path d="M685 400 H555 L495 405"/><circle cx="495" cy="405" r="2.5"/></g>
+              <g><text x="268" y="493" text-anchor="end">Battery</text><path d="M280 485 H408"/><circle cx="408" cy="485" r="2.5"/></g>
+              <g><text x="700" y="487">Camera</text><path d="M685 480 H515"/><circle cx="515" cy="480" r="2.5"/></g>
+              <g><text x="700" y="557">Magnetic switch</text><path d="M685 550 H570 L464 520"/><circle cx="464" cy="520" r="2.5"/></g>
+              <g><text x="770" y="637">Steel balls</text><path d="M755 630 H655 L470 730"/><circle cx="470" cy="730" r="2.5"/></g>
+              <g><text x="238" y="795" text-anchor="end">Housing</text><path d="M250 788 H347"/><circle cx="347" cy="788" r="2.5"/></g>
+              <g><text x="700" y="902">Switch magnet</text><path d="M685 895 H565 L496 876"/><circle cx="496" cy="876" r="2.5"/></g>
+            </svg>
+          </div>
+        </div>
       </div>
-    </section>
+      </div>
+    </div>
 
     <section class="section anatomy" id="design" aria-labelledby="design-title">
-      <div class="section-heading content-width reveal"><h2 id="design-title">Sensor anatomy.</h2><p>A bearing-supported gel sphere around a magnetically suspended optical module.</p></div>
+      <div class="section-heading exploded-fallback content-width reveal"><h2>Exploded view.</h2><p>A bearing-supported gel sphere around a magnetically suspended optical module.</p></div>
       <div class="anatomy-layout wide-width">
         <figure class="exploded-figure reveal">
           <a href="./static/images/exploded-view.png" target="_blank" rel="noopener noreferrer" aria-label="Open full-size exploded view"><img src="./static/images/exploded-view.png" alt="Exploded view: cap, gel, LED ring, optical base, camera, battery, magnets, and ball-bearing housing" width="1208" height="2130" loading="lazy"></a>
         </figure>
-        <figure class="cross-section-figure reveal">
+        <div class="cross-section-subsection reveal">
+        <h3 id="design-title">Cross-section.</h3>
+        <figure class="cross-section-figure">
           <a href="./static/images/cross-section.png" target="_blank" rel="noopener noreferrer" aria-label="Open full-size cross-section"><img src="./static/images/cross-section.png" alt="Cross-section showing the gel sphere, camera, LED ring, suspension magnets, and steel balls" width="1369" height="1036" loading="lazy"></a>
           <figcaption>65.3 mm sensing sphere.<br>Onboard power. Wi-Fi streaming.</figcaption>
         </figure>
+        </div>
       </div>
+    </section>
     </section>
 
     <section class="section single-frames" id="single-frames" aria-labelledby="frames-title">
       <div class="section-heading content-width reveal"><h2 id="frames-title">Single-frame<br> reconstruction.</h2><p>Physical contact, tactile images, and reconstructed geometry across six surfaces.</p></div>
-      <figure class="wide-video reveal"><video id="single-frame-video" controls muted loop playsinline preload="none" poster="./static/images/single-frame-poster.jpg" aria-label="Six single-frame reconstruction demonstrations on indoor and outdoor surfaces"><source src="./static/videos/single-frame-demo.mp4" type="video/mp4"></video></figure>
+      <figure class="wide-video reveal"><video id="single-frame-video" controls muted loop playsinline preload="none" data-autoplay poster="./static/images/single-frame-poster.jpg" aria-label="Six single-frame reconstruction demonstrations on indoor and outdoor surfaces"><source src="./static/videos/single-frame-demo.mp4" type="video/mp4"></video></figure>
     </section>
 
     <section class="section reconstruction" id="reconstruction" aria-labelledby="reconstruction-title">
