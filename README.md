@@ -22,6 +22,8 @@ npx serve
 
 Then open http://localhost:8080 in your browser.
 
+The stylesheet and script links in `index.html` include the first eight characters of each file's SHA-256 hash. Refresh those version values after editing the CSS or JavaScript so returning visitors receive the matching assets after deployment.
+
 ### GitHub Pages Deployment
 
 To deploy as a GitHub Pages site:
