@@ -107,7 +107,7 @@ p { color: var(--secondary); }
 .has-explosion .sensor-scene { height: var(--scene-height); }
 .has-explosion :is(#mechanism-title, .sensor-caption, #sensor-control) { opacity: var(--mechanism-opacity, 1); }
 .explosion-layer { position: absolute; inset: 0; z-index: 5; background: #fff; opacity: var(--explosion-opacity, 0); pointer-events: none; }
-.explosion-media { position: absolute; height: calc(100% - 70px); aspect-ratio: 1; left: var(--exploded-center, 66%); transform: translateX(-50%); }
+.explosion-media { position: absolute; height: calc(100% - 70px); aspect-ratio: 1; left: var(--exploded-center, 66%); transform: translateX(-50%) scale(var(--exploded-scale, 1)); transform-origin: center top; }
 .sensor-scene .explosion-media video { width: 100%; height: 100%; inset: 0; max-width: 100%; transform: none; }
 .exploded-labels { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; opacity: var(--exploded-label-opacity, 0); }
 .exploded-labels text { font-family: inherit; font-size: 27px; font-weight: 400; letter-spacing: -.025em; fill: var(--ink); }
@@ -131,16 +131,6 @@ p { color: var(--secondary); }
 .wide-video video { width: 100%; aspect-ratio: 16 / 9; }
 .single-frames .wide-video { width: min(1120px, calc(100% - 100px), calc(56svh * 1920 / 860)); }
 .single-frames .wide-video video { aspect-ratio: 1920 / 860; }
-.experiment { display: grid; grid-template-columns: .82fr 1fr; gap: 90px; align-items: start; padding-block: 45px 70px; }
-.experiment-copy { position: sticky; top: 100px; padding-top: 35px; }
-.experiment-copy > p { font-size: 19px; line-height: 1.5; margin-top: 25px; letter-spacing: -.015em; }
-.experiment figure img { width: 100%; max-height: min(720px, calc(100svh - 150px)); object-fit: contain; }
-.metric-pair { display: flex; gap: 30px; margin-top: 50px; }
-.metric-pair > div { flex: 1; }
-.metric-pair strong { display: block; font-size: clamp(35px, 4.1vw, 56px); line-height: 1.1; letter-spacing: -.065em; font-weight: 500; white-space: nowrap; }
-.metric-pair small { font-size: 23px; letter-spacing: -.025em; }
-.metric-pair span { display: block; font-size: 14px; color: var(--secondary); margin-top: 8px; }
-.experiment-copy .metric-caption { font-size: 12px; margin-top: 24px; }
 .results-note { font-size: 13px; color: var(--secondary); }
 .results-note a { color: var(--blue); margin-left: 10px; }
 .project-video { padding-bottom: 100px; }
@@ -166,9 +156,6 @@ p { color: var(--secondary); }
   .sensor-scene { width: calc(100% - 64px); }
   .sensor-caption { width: 29%; }
   .sensor-caption p { font-size: 17px; }
-  .experiment { gap: 40px; }
-  .experiment-copy { padding-top: 20px; top: 100px; }
-  .metric-pair { gap: 18px; }
 }
 @media (max-width: 760px) {
   html { scroll-padding-top: 75px; }
@@ -215,7 +202,7 @@ p { color: var(--secondary); }
   .has-explosion .sensor-caption { position: absolute; inset: auto 24px 95px; margin: 0; padding: 0; width: auto; max-width: 430px; }
   .has-explosion .sensor-caption h3 { font-size: 25px; }
   .has-explosion .sensor-caption p { font-size: 15px; }
-  .has-explosion .explosion-media { height: min(100vw, calc(var(--scene-height) - 250px)); left: 50%; top: 0; }
+  .has-explosion .explosion-media { height: min(100vw, calc(var(--scene-height) - 250px)); left: 50%; top: 0; transform: translateX(-50%); }
   .has-explosion .exploded-labels text { font-size: 34px; }
   .sensor-scene .video-action { bottom: 10px; }
   .completion-note { font-size: 11px; }
@@ -225,16 +212,6 @@ p { color: var(--secondary); }
   .cross-section-figure { position: static; margin-top: 0; }
   .cross-section-figure figcaption { font-size: 23px; margin-top: 10px; }
   .wide-video, .single-frames .wide-video { width: 100%; }
-  .experiment { grid-template-columns: 1fr; gap: 40px; padding-block: 40px 65px; }
-  .experiment-copy { position: static; padding: 0; }
-  .experiment-copy > p { font-size: 17px; margin-top: 20px; }
-  .metric-pair { max-width: 380px; margin-top: 27px; gap: 30px; }
-  .metric-pair strong { font-size: clamp(36px, 9vw, 52px); }
-  .metric-pair small { font-size: 21px; }
-  .metric-pair span { font-size: 12px; }
-  .experiment-copy .metric-caption { font-size: 11px; margin-top: 18px; }
-  .experiment figure { max-width: 520px; width: 100%; margin: auto; }
-  .experiment figure img { max-height: none; }
   .results-note { font-size: 11px; }
   .results-note a { display: inline-block; margin-left: 0; }
   .project-video { padding-bottom: 65px; }

@@ -33,11 +33,11 @@ def poster(video, name, time):
 def mechanism_clips():
     # Trim decoded frames, not keyframes. Adjacent clips share one boundary
     # frame, so the held pose is also the first frame of the next stage.
-    source = 'Animations/GelSphere_crossSection_withouterMagent_animation_whiteBG.mp4'
+    source = 'source/animations/GelSphere_crossSection_withouterMagent_animation_whiteBG.mp4'
     for name, first, stop in [
         ('optical-core', 0, 25),
-        ('magnetic-suspension', 24, 61),
-        ('ball-bearings', 60, 145),
+        ('magnetic-suspension', 24, 72),
+        ('ball-bearings', 71, 145),
         ('assembled', 144, 200),
     ]:
         video = f'sensor-{name}.mp4'
@@ -54,11 +54,11 @@ def main():
            'crop=840:824:992:172,scale=840:824', start=9, duration=19)
     # Screen recording: remove margins, cursor/recording controls at the end,
     # and unused audio. The six synchronized demonstrations stay together.
-    recording = next(ROOT.glob('Screen Recording*.mov'))
+    recording = ROOT / 'source/videos/single-frame-screen-recording.mov'
     encode(recording, 'single-frame-demo.mp4',
            'crop=2248:1008:168:92,scale=1920:-2,fps=30', start=0.5, duration=30)
-    encode('Animations/Trimmed Optics.mp4', 'optics-principle.mp4', 'scale=1500:1500')
-    encode('Animations/GelSphere_crossSection_withouterMagent_animation_whiteBG.mp4',
+    encode('source/animations/Trimmed Optics.mp4', 'optics-principle.mp4', 'scale=1500:1500')
+    encode('source/animations/GelSphere_crossSection_withouterMagent_animation_whiteBG.mp4',
            'sensor-assembly.mp4', 'scale=1500:1500')
     mechanism_clips()
     for video, image, time in [
@@ -70,14 +70,14 @@ def main():
         ('teaser.mp4', 'project-poster.jpg', 0),
     ]:
         poster(video, image, time)
-    for source, name in [('Exploded_View.png', 'exploded-view.png'),
-                         ('new_CrossSection.png', 'cross-section.png')]:
+    for source, name in [('source/figures/exploded-view.png', 'exploded-view.png'),
+                         ('source/figures/cross-section.png', 'cross-section.png')]:
         shutil.copy2(ROOT / source, IMAGES / name)
     for source, name in [('Single_and_hex_v2 (1).jpg', 'single_and_hex.jpg'),
                          ('Large_Surface (1).jpg', 'large_surface.jpg'),
                          ('Force_Estimation (9).jpg', 'force_estimation.jpg'),
                          ('Fabricated_v2.jpg', 'fabricated.jpg')]:
-        shutil.copy2(ROOT / 'Figures' / source, IMAGES / name)
+        shutil.copy2(ROOT / 'source/figures' / source, IMAGES / name)
 
 
 if __name__ == '__main__':

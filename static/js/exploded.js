@@ -47,6 +47,7 @@ function setupExplodedScroll(player) {
     section.style.setProperty('--mechanism-opacity', String(1 - smooth(progress / 0.2)));
     section.style.setProperty('--exploded-title-opacity', String(smooth((progress - 0.06) / 0.2)));
     section.style.setProperty('--exploded-center', `${66 - 16 * smooth(progress / 0.65)}%`);
+    section.style.setProperty('--exploded-scale', String(1 + 0.2 * smooth(progress / 0.8)));
     section.dataset.explosionProgress = progress.toFixed(3);
     caption.inert = progress > 0.02;
     control.disabled = progress > 0.02;

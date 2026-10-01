@@ -374,10 +374,10 @@ const mechanismPlayer = setupClickAnimation({
   videoId: 'sensor-animation', controlId: 'sensor-control', actionId: 'sensor-action',
   iconId: 'sensor-icon', statusId: 'animation-status', rate: 0.75,
   steps: [
-    { src: './static/videos/sensor-optical-core.mp4', poster: './static/images/sensor-optical-core.jpg', name: 'optical core', title: 'Optical core.', description: 'A camera, RGB lighting, and battery inside the sensing sphere.' },
-    { src: './static/videos/sensor-magnetic-suspension.mp4?v=8f941d1a', poster: './static/images/sensor-magnetic-suspension.jpg?v=0282d768', name: 'magnetic suspension', title: 'Magnetic suspension.', description: 'Coupling magnets stabilize the optical module while the gel shell rolls.' },
-    { src: './static/videos/sensor-ball-bearings.mp4?v=62fff951', poster: './static/images/sensor-ball-bearings.jpg?v=439a4cc0', name: 'ball bearings', title: 'Ball bearings.', description: 'A layer of steel balls supports smooth rolling in any direction.' },
-    { src: './static/videos/sensor-assembled.mp4', poster: './static/images/sensor-assembled.jpg', name: 'assembled sensor', title: 'Assembled sensor.', description: 'Self-contained sensing with wireless tactile image streaming.' }
+    { src: './static/videos/sensor-optical-core.mp4', poster: './static/images/sensor-optical-core.jpg', name: 'optical core', title: 'Optical core', description: 'A camera, RGB lighting, and battery inside the sensing sphere.' },
+    { src: './static/videos/sensor-magnetic-suspension.mp4?v=8bf7e1f5', poster: './static/images/sensor-magnetic-suspension.jpg?v=47dd9833', name: 'magnetic suspension', title: 'Magnetic suspension', description: 'Coupling magnets stabilize the optical module while the gel shell rolls.' },
+    { src: './static/videos/sensor-ball-bearings.mp4?v=fbe948fb', poster: './static/images/sensor-ball-bearings.jpg?v=eae4e905', name: 'ball bearings', title: 'Ball bearings', description: 'A layer of steel balls supports smooth rolling in any direction.' },
+    { src: './static/videos/sensor-assembled.mp4', poster: './static/images/sensor-assembled.jpg', name: 'assembled sensor', title: 'Assembled sensor', description: 'Self-contained sensing with wireless tactile image streaming.' }
   ]
 });
 setupScrollEffects();

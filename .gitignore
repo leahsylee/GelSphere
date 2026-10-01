@@ -1,0 +1,9 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+# Local render/export intermediates
+.work/
+# Local authoring inputs are not part of the public website.
+# Previously tracked originals remain versioned after their folder moves.
+source/**
+!source/README.md

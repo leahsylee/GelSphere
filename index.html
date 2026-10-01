@@ -7,9 +7,11 @@
   <meta name="theme-color" content="#ffffff">
   <title>GelSphere · IROS 2026</title>
   <link rel="icon" href="./static/images/favicon.svg">
-  <link rel="stylesheet" href="./static/css/index.css?v=aa4d1507">
-  <script defer src="./static/js/index.js?v=fab7420c"></script>
-  <script defer src="./static/js/exploded.js?v=c9b16586"></script>
+  <link rel="stylesheet" href="./static/css/index.css?v=b61fce40">
+  <link rel="stylesheet" href="./static/css/research.css?v=0d698f78">
+  <script defer src="./static/js/index.js?v=4466397b"></script>
+  <script defer src="./static/js/exploded.js?v=3ea67b06"></script>
+  <script defer src="./static/js/research.js?v=f19354d0"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -52,7 +54,7 @@
 
     <section class="section principle" id="principle" aria-labelledby="principle-title">
       <div class="section-heading content-width reveal">
-        <h2 id="principle-title">Sensing principle.</h2>
+        <h2 id="principle-title">Sensing principle</h2>
         <p>A soft gel deforms on contact. RGB illumination lets a camera measure that deformation and recover the local surface geometry.</p>
       </div>
       <div class="optics-scene reveal">
@@ -69,13 +71,13 @@
     <section class="sensor-design" aria-label="Sensor design">
     <div class="section mechanism" id="mechanism" role="region" aria-labelledby="mechanism-title">
       <div class="mechanism-pin">
-      <div class="section-heading story-heading content-width reveal"><h2 id="mechanism-title">Rolling mechanism.</h2><h2 id="exploded-title" aria-hidden="true" hidden>Exploded view.</h2></div>
+      <div class="section-heading story-heading content-width reveal"><h2 id="mechanism-title">Rolling mechanism</h2><h2 id="exploded-title" aria-hidden="true" hidden>Exploded view</h2></div>
       <div class="sensor-scene reveal">
         <video id="sensor-animation" muted playsinline preload="metadata" controls poster="./static/images/sensor-poster.jpg" aria-label="GelSphere assembly animation" aria-describedby="step-description">
           <source src="./static/videos/sensor-assembly.mp4" type="video/mp4">
         </video>
         <div class="sensor-caption" aria-live="polite" aria-atomic="true">
-          <h3 id="step-title">Optical core.</h3>
+          <h3 id="step-title">Optical core</h3>
           <p id="step-description">A camera, RGB lighting, and battery inside the sensing sphere.</p>
           <div class="step-navigation" role="group" aria-label="Animation stages" hidden>
             <button class="step-arrow" id="previous-step" type="button" aria-label="Previous stage" disabled><span aria-hidden="true">←</span></button>
@@ -117,13 +119,13 @@
     </div>
 
     <section class="section anatomy" id="design" aria-labelledby="design-title">
-      <div class="section-heading exploded-fallback content-width reveal"><h2>Exploded view.</h2><p>A bearing-supported gel sphere around a magnetically suspended optical module.</p></div>
+      <div class="section-heading exploded-fallback content-width reveal"><h2>Exploded view</h2><p>A bearing-supported gel sphere around a magnetically suspended optical module.</p></div>
       <div class="anatomy-layout wide-width">
         <figure class="exploded-figure reveal">
           <a href="./static/images/exploded-view.png" target="_blank" rel="noopener noreferrer" aria-label="Open full-size exploded view"><img src="./static/images/exploded-view.png" alt="Exploded view: cap, gel, LED ring, optical base, camera, battery, magnets, and ball-bearing housing" width="1208" height="2130" loading="lazy"></a>
         </figure>
         <div class="cross-section-subsection reveal">
-        <h3 id="design-title">Cross-section.</h3>
+        <h3 id="design-title">Cross-section</h3>
         <figure class="cross-section-figure">
           <a href="./static/images/cross-section.png" target="_blank" rel="noopener noreferrer" aria-label="Open full-size cross-section"><img src="./static/images/cross-section.png" alt="Cross-section showing the gel sphere, camera, LED ring, suspension magnets, and steel balls" width="1369" height="1036" loading="lazy"></a>
           <figcaption>65.3 mm sensing sphere.<br>Onboard power. Wi-Fi streaming.</figcaption>
@@ -134,49 +136,140 @@
     </section>
 
     <section class="section single-frames" id="single-frames" aria-labelledby="frames-title">
-      <div class="section-heading content-width reveal"><h2 id="frames-title">Single-frame<br> reconstruction.</h2><p>Physical contact, tactile images, and reconstructed geometry across six surfaces.</p></div>
+      <div class="section-heading content-width reveal"><h2 id="frames-title">Single-frame<br> reconstruction</h2><p>Physical contact, tactile images, and reconstructed geometry across six surfaces.</p></div>
       <figure class="wide-video reveal"><video id="single-frame-video" controls muted loop playsinline preload="none" data-autoplay poster="./static/images/single-frame-poster.jpg" aria-label="Six single-frame reconstruction demonstrations on indoor and outdoor surfaces"><source src="./static/videos/single-frame-demo.mp4" type="video/mp4"></video></figure>
     </section>
 
-    <section class="section reconstruction" id="reconstruction" aria-labelledby="reconstruction-title">
-      <div class="section-heading content-width reveal"><h2 id="reconstruction-title">Continuous<br> reconstruction.</h2><p><a href="https://arxiv.org/abs/2508.15990" target="_blank" rel="noopener noreferrer">GelSLAM</a> tracks overlapping tactile observations and fuses them into a larger 3D surface, refining alignment through loop closure.</p></div>
+    <section class="section gelslam" id="reconstruction" aria-labelledby="gelslam-title">
+      <div class="section-heading content-width reveal"><h2 id="gelslam-title">GelSLAM</h2><p>From overlapping touches to a continuous 3D surface.</p></div>
+      <div class="gelslam-story content-width reveal" data-step="0">
+        <div class="slam-caption" aria-live="polite" aria-atomic="true">
+          <span class="stage-count" id="slam-count">01 / 04</span>
+          <h3 id="slam-step-title">Scan the surface</h3>
+          <p id="slam-step-description">As GelSphere rolls, each tactile image captures a small area of contact. The red circles show overlapping touches along the scan path.</p>
+          <div class="slam-navigation" role="group" aria-label="GelSLAM stages" hidden>
+            <button type="button" id="slam-previous" class="step-arrow" aria-label="Previous GelSLAM stage" disabled>←</button>
+            <div class="step-dots">
+              <button type="button" aria-label="Scan the surface" aria-current="step" class="is-active"></button>
+              <button type="button" aria-label="Match surface features"></button>
+              <button type="button" aria-label="Align the patches"></button>
+              <button type="button" aria-label="Build the surface"></button>
+            </div>
+            <button type="button" id="slam-next" class="step-arrow" aria-label="Next GelSLAM stage">→</button>
+          </div>
+        </div>
+        <div class="slam-visual">
+          <video id="slam-video" muted playsinline controls preload="metadata" poster="./static/images/research/gelslam-scan-end.jpg" aria-label="Original GelSLAM PowerPoint animation: scanning, feature matching, patch alignment, and surface fusion" aria-describedby="slam-step-description"><source src="./static/videos/gelslam-presentation.mp4" type="video/mp4"></video>
+          <button class="slam-hit-area" id="slam-advance" type="button" aria-label="Play GelSLAM animation" aria-describedby="slam-step-description" hidden><span class="video-action"><span id="slam-action">Click to play</span><span class="action-icon" id="slam-icon" aria-hidden="true">▷</span></span></button>
+        </div>
+      </div>
+      <p class="research-credit content-width"><a href="https://arxiv.org/abs/2508.15990" target="_blank" rel="noopener noreferrer">GelSLAM · Huang et al. ↗</a></p>
+    </section>
+
+    <section class="section reconstruction" aria-labelledby="reconstruction-title">
+      <div class="section-heading content-width reveal"><h2 id="reconstruction-title">Continuous reconstruction</h2><p>Live reconstruction with specular and matte sensors.</p></div>
       <figure class="wide-video reveal"><video id="live-video" controls muted playsinline preload="none" data-autoplay poster="./static/images/continuous-poster.jpg" aria-label="Continuous reconstruction with matte and specular GelSphere sensors"><source src="./static/videos/live_reconstruction.mp4" type="video/mp4"></video></figure>
     </section>
 
     <section class="section results" id="results" aria-labelledby="results-title">
-      <div class="section-heading content-width reveal"><h2 id="results-title">Experiments &amp; results.</h2><p>Comparing specular and matte coatings.</p></div>
-      <article class="experiment content-width" aria-labelledby="local-title">
-        <div class="experiment-copy reveal">
-          <h3 id="local-title">Local reconstruction.</h3>
-          <p>A hexagonal indenter is tested at 50 locations across the sensing surface. Specular coating produces more consistent surface-normal estimates.</p>
-          <div class="metric-pair"><div><strong>0.965</strong><span>Specular</span></div><div><strong>0.939</strong><span>Matte</span></div></div>
-          <p class="metric-caption">Mean normal dot product · closer to 1 is better</p>
+      <div class="section-heading content-width reveal"><h2 id="results-title">Experiments</h2></div>
+      <div class="results-content content-width reveal">
+        <div class="experiment-tabs" aria-label="Experiments">
+          <button class="experiment-tab is-selected" id="hex-tab" type="button" aria-controls="hex-panel">
+            <span class="experiment-name">Hex reconstruction</span>
+            <span class="result-pair"><span><strong>0.965</strong><span>Specular</span></span><span><strong>0.939</strong><span>Matte</span></span></span>
+            <span class="result-unit">Normal dot product ↑</span>
+          </button>
+          <button class="experiment-tab" id="feather-tab" type="button" aria-controls="feather-panel">
+            <span class="experiment-name">Large-surface reconstruction</span>
+            <span class="result-pair"><span><strong>1.07<small> mm</small></strong><span>Specular</span></span><span><strong>1.25<small> mm</small></strong><span>Matte</span></span></span>
+            <span class="result-unit">Distance error ↓</span>
+          </button>
+          <button class="experiment-tab" id="force-tab" type="button" aria-controls="force-panel">
+            <span class="experiment-name">Force estimation</span>
+            <span class="result-pair"><span><strong>0.44<small> N</small></strong><span>Specular</span></span><span><strong>0.93<small> N</small></strong><span>Matte</span></span></span>
+            <span class="result-unit">Normal force error ↓</span>
+          </button>
         </div>
-        <figure class="reveal"><a href="./static/images/single_and_hex.jpg" target="_blank" rel="noopener noreferrer" aria-label="Open local reconstruction results"><img src="./static/images/single_and_hex.jpg" alt="Hex indenter normal accuracy and reconstructed keys and screws for both coatings" width="889" height="1326" loading="lazy"></a></figure>
-      </article>
-      <article class="experiment content-width" aria-labelledby="surface-title">
-        <div class="experiment-copy reveal">
-          <h3 id="surface-title">Large-surface reconstruction.</h3>
-          <p>A 75 × 32.5 mm feather pattern is reconstructed by rolling. Twenty-four corresponding landmarks measure planar drift.</p>
-          <div class="metric-pair"><div><strong>1.07<small> mm</small></strong><span>Specular</span></div><div><strong>1.25<small> mm</small></strong><span>Matte</span></div></div>
-          <p class="metric-caption">Distance MAE · angular MAE: 1.3° / 2.7°</p>
+        <div class="experiment-panel hex-panel" id="hex-panel" aria-labelledby="hex-tab">
+          <div class="experiment-context">
+            <h3>Single-frame accuracy</h3>
+            <p>A hexagonal indenter, tested at 50 positions on the sensing surface.</p>
+            <figure class="hex-reference"><img src="./static/images/research/hex-reference.webp" alt="Ground-truth surface normals of the hexagonal indenter" width="188" height="188" loading="lazy"><figcaption>Ground truth</figcaption></figure>
+            <button type="button" class="text-control" id="hex-replay" hidden><span aria-hidden="true">↻</span> Replay</button>
+          </div>
+          <div class="hex-comparison">
+            <div class="hex-samples">
+              <div class="hex-sample-heads"><span>Tactile image</span><span>Normal</span></div>
+              <figure class="hex-sample-row"><img class="hex-reveal" style="--delay:0s" src="./static/images/research/hex-specular-raw.webp" alt="Specular tactile image" width="109" height="109" loading="lazy"><img class="hex-reveal" style="--delay:.7s" src="./static/images/research/hex-specular-normal.webp" alt="Specular surface normals" width="109" height="109" loading="lazy"><figcaption>Specular</figcaption></figure>
+              <figure class="hex-sample-row"><img class="hex-reveal" style="--delay:.15s" src="./static/images/research/hex-matte-raw.webp" alt="Matte tactile image" width="52" height="52" loading="lazy"><img class="hex-reveal" style="--delay:.85s" src="./static/images/research/hex-matte-normal.webp" alt="Matte surface normals" width="52" height="52" loading="lazy"><figcaption>Matte</figcaption></figure>
+            </div>
+            <div class="hex-accuracy">
+              <div class="accuracy-maps">
+                <figure>
+                  <div class="heat-map">
+                    <span class="light-location light-red">Red light ↓</span>
+                    <img class="hex-reveal" style="--delay:1.4s" src="./static/images/research/hex-specular-accuracy.webp" alt="Specular normal accuracy across the sensing surface" width="127" height="128" loading="lazy">
+                    <div class="light-lower"><span class="light-location light-green">↑ Green light</span><span class="light-location light-blue">Blue light ↑</span></div>
+                  </div>
+                  <figcaption>Specular</figcaption>
+                </figure>
+                <figure>
+                  <div class="heat-map">
+                    <span class="light-location light-red">Red light ↓</span>
+                    <img class="hex-reveal" style="--delay:1.55s" src="./static/images/research/hex-matte-accuracy.webp" alt="Matte normal accuracy across the sensing surface" width="127" height="128" loading="lazy">
+                    <div class="light-lower"><span class="light-location light-green">↑ Green light</span><span class="light-location light-blue">Blue light ↑</span></div>
+                  </div>
+                  <figcaption>Matte</figcaption>
+                </figure>
+              </div>
+            </div>
+            <figure class="hex-scale"><img src="./static/images/research/hex-scale.webp" alt="Normal dot product scale from 0.89 to 0.98; higher is better" width="143" height="595" loading="lazy"></figure>
+            <p class="experiment-note">Normal MAE: <b>0.111</b> specular · <b>0.156</b> matte</p>
+          </div>
         </div>
-        <figure class="reveal"><a href="./static/images/large_surface.jpg" target="_blank" rel="noopener noreferrer" aria-label="Open large-surface reconstruction results"><img src="./static/images/large_surface.jpg" alt="Reference feather and specular and matte reconstructions with corresponding landmarks" width="808" height="1133" loading="lazy"></a></figure>
-      </article>
-      <article class="experiment content-width" aria-labelledby="force-title">
-        <div class="experiment-copy reveal">
-          <h3 id="force-title">Normal force estimation.</h3>
-          <p>A model estimates force from tactile images. Approximately 750 samples from eight indenters are split 80/20 for training and testing against force–torque sensor measurements.</p>
-          <div class="metric-pair"><div><strong>0.44<small> N</small></strong><span>Specular</span></div><div><strong>0.93<small> N</small></strong><span>Matte</span></div></div>
-          <p class="metric-caption">Normal force MAE on test data</p>
+        <div class="experiment-panel feather-panel" id="feather-panel" aria-labelledby="feather-tab">
+          <div class="experiment-context">
+            <h3>Surface reconstruction</h3>
+            <p>A 75 mm feather reconstructed by rolling. Matched landmarks measure drift across the scan.</p>
+            <p class="angular-result">Angle error<br><b>1.3°</b> specular · <b>2.7°</b> matte</p>
+            <button type="button" class="text-control" id="feather-landmarks" aria-pressed="false" hidden>Show landmarks</button>
+          </div>
+          <div class="feather-comparison">
+            <figure><div class="feather-image"><img src="./static/images/research/feather-object.webp" alt="The 75 mm SLA-printed feather used as the reference object" width="590" height="1200" loading="lazy"></div><figcaption>Printed surface</figcaption></figure>
+            <figure><div class="feather-image"><img src="./static/images/research/feather-reference.webp" alt="Ground-truth normal map of the feather" width="402" height="920" loading="lazy"><img class="landmark-overlay" src="./static/images/research/feather-reference-landmarks.webp" alt="" width="402" height="920" loading="lazy"></div><figcaption>Ground truth</figcaption></figure>
+            <figure><div class="feather-image"><img src="./static/images/research/feather-specular.webp" alt="Feather normal map reconstructed with the specular sensor" width="402" height="920" loading="lazy"><img class="landmark-overlay" src="./static/images/research/feather-specular-landmarks.webp" alt="" width="402" height="920" loading="lazy"></div><figcaption>Specular</figcaption></figure>
+            <figure><div class="feather-image"><img src="./static/images/research/feather-matte.webp" alt="Feather normal map reconstructed with the matte sensor" width="402" height="920" loading="lazy"><img class="landmark-overlay" src="./static/images/research/feather-matte-landmarks.webp" alt="" width="402" height="920" loading="lazy"></div><figcaption>Matte</figcaption></figure>
+          </div>
         </div>
-        <figure class="reveal"><a href="./static/images/force_estimation.jpg" target="_blank" rel="noopener noreferrer" aria-label="Open force estimation results"><img src="./static/images/force_estimation.jpg" alt="Force test setup, tactile response to load, and estimated versus measured force for both coatings" width="1414" height="1851" loading="lazy"></a></figure>
-      </article>
-      <p class="results-note content-width">MAE: mean absolute error. <a href="https://arxiv.org/abs/2603.14104" target="_blank" rel="noopener noreferrer">Full results in the paper ↗</a></p>
+        <div class="experiment-panel force-panel" id="force-panel" aria-labelledby="force-tab">
+          <div class="experiment-context">
+            <h3>Force from tactile images</h3>
+            <p>Indenter radii: <b>1, 2, 4, 8, 16, 32, and 64 cm</b>, plus a flat surface. Loads from 1–15 N.</p>
+            <figure class="force-rig">
+              <svg viewBox="0 0 760 500" role="img" aria-label="Force test rig: force–torque sensor above the interchangeable indenter, pressing the GelSphere below">
+                <image href="./static/images/research/force-rig.webp" x="0" y="0" width="554" height="463"/>
+                <g class="rig-leaders"><path d="M565 212 H395 L307 229"/><path d="M565 276 H400 L295 258"/><path d="M565 370 H403 L320 356"/></g>
+                <g class="rig-points"><circle cx="307" cy="229" r="4"/><circle cx="295" cy="258" r="4"/><circle cx="320" cy="356" r="4"/></g>
+                <text x="575" y="218">Force–torque<tspan x="575" dy="25">sensor</tspan></text>
+                <text x="575" y="282">Indenter<tspan class="rig-detail" x="575" dy="25">Varying radius</tspan></text>
+                <text x="575" y="376">GelSphere</text>
+              </svg>
+              <figcaption>Interchangeable curved and flat indenters</figcaption>
+            </figure>
+          </div>
+          <figure class="force-comparison">
+            <div class="force-labels" aria-hidden="true"><span>Specular</span><span>Matte</span><span>Estimated vs. measured</span></div>
+            <video id="force-video" muted loop playsinline controls preload="none" data-autoplay poster="./static/images/research/force-poster.jpg" aria-label="Specular and matte tactile response, synchronized with estimated versus measured normal force"><source src="./static/videos/force-comparison.mp4" type="video/mp4"></video>
+            <figcaption>A CNN predicts normal force directly from each tactile image.</figcaption>
+          </figure>
+        </div>
+      </div>
+      <p class="results-note content-width">Errors are mean absolute error (MAE). <a href="https://arxiv.org/abs/2603.14104" target="_blank" rel="noopener noreferrer">Full results in the paper ↗</a></p>
     </section>
 
     <section class="section project-video" id="video" aria-labelledby="video-title">
-      <div class="section-heading content-width reveal"><h2 id="video-title">Project video.</h2></div>
+      <div class="section-heading content-width reveal"><h2 id="video-title">Project video</h2></div>
       <figure class="wide-video reveal"><video id="project-video" controls muted playsinline preload="none" data-autoplay poster="./static/images/project-poster.jpg" aria-label="Full GelSphere project video"><source src="./static/videos/teaser.mp4" type="video/mp4"><track kind="subtitles" srclang="en" label="English" src="./static/subtitles/teaser.en.vtt" default></video></figure>
     </section>
 

@@ -1,7 +1,7 @@
 """Render the scroll animation from the supplied exploded-view Blender scene.
 
 Run with Blender, keeping the original .blend unchanged:
-  blender -b GelSphere_exploded_image.blend --disable-autoexec \
+  blender -b source/blender/GelSphere-exploded.blend --disable-autoexec \
     --python scripts/render-exploded.py -- --output /tmp/gelsphere-render
 
 The model's top-level component origins define the assembled pose. Their saved
