@@ -13,6 +13,12 @@ function setupExplodedScroll(player) {
   const rollingTitle = document.querySelector('#mechanism-title');
   const caption = section.querySelector('.sensor-caption');
   const control = document.querySelector('#sensor-control');
+  const scene = section.querySelector('.sensor-scene');
+  const media = section.querySelector('.explosion-media');
+  const crossSection = document.querySelector('.cross-section-subsection');
+  const crossSectionHome = crossSection.parentNode;
+  const crossSectionNext = crossSection.nextSibling;
+  const wideLayout = matchMedia('(min-width: 761px)');
   const source = video.querySelector('source').src;
   const fps = 24;
   const clamp = value => Math.max(0, Math.min(1, value));
@@ -21,6 +27,9 @@ function setupExplodedScroll(player) {
   let loading = false;
   let enabled = false;
   let progress = 0;
+  let explosionProgress = 0;
+  let comparisonEnabled = false;
+  let comparisonScale = 1.2;
   let target = 0;
   let desiredFrame = 0;
   let finalFrame = 0;
@@ -29,7 +38,7 @@ function setupExplodedScroll(player) {
 
   function updateLabels() {
     const decoded = finalFrame ? video.currentTime * fps / finalFrame : 0;
-    const opacity = smooth((Math.min(progress, decoded) - 0.82) / 0.18);
+    const opacity = smooth((Math.min(explosionProgress, decoded) - 0.82) / 0.18);
     section.style.setProperty('--exploded-label-opacity', String(opacity));
     labels.setAttribute('aria-hidden', String(opacity < 0.5));
   }
@@ -42,22 +51,33 @@ function setupExplodedScroll(player) {
   }
 
   function paint() {
-    const reveal = smooth(progress / 0.1);
+    // Open the sensor, hold the labeled view, then introduce the cross-section.
+    // The final video frame stays fixed throughout the side-by-side transition.
+    explosionProgress = comparisonEnabled ? clamp(progress / 0.6) : progress;
+    const comparison = comparisonEnabled ? smooth((progress - 0.68) / 0.27) : 0;
+    const reveal = smooth(explosionProgress / 0.1);
     section.style.setProperty('--explosion-opacity', String(reveal));
-    section.style.setProperty('--mechanism-opacity', String(1 - smooth(progress / 0.2)));
-    section.style.setProperty('--exploded-title-opacity', String(smooth((progress - 0.06) / 0.2)));
-    section.style.setProperty('--exploded-center', `${66 - 16 * smooth(progress / 0.65)}%`);
-    section.style.setProperty('--exploded-scale', String(1 + 0.2 * smooth(progress / 0.8)));
-    section.dataset.explosionProgress = progress.toFixed(3);
-    caption.inert = progress > 0.02;
-    control.disabled = progress > 0.02;
-    rollingTitle.setAttribute('aria-hidden', String(progress > 0.15));
-    title.setAttribute('aria-hidden', String(progress <= 0.15));
-    video.setAttribute('aria-hidden', String(progress <= 0.02));
-    assembledVideo.setAttribute('aria-hidden', String(progress > 0.02));
-    section.setAttribute('aria-labelledby', progress > 0.15 ? 'exploded-title' : 'mechanism-title');
-    if (progress > 0.005) player.holdAssembled();
-    desiredFrame = Math.round(progress * finalFrame);
+    section.style.setProperty('--mechanism-opacity', String(1 - smooth(explosionProgress / 0.2)));
+    section.style.setProperty('--exploded-title-opacity', String(smooth((explosionProgress - 0.06) / 0.2)));
+    section.style.setProperty('--exploded-center', `${66 - 16 * smooth(explosionProgress / 0.65) - 25 * comparison}%`);
+    section.style.setProperty('--exploded-scale', String(1 + 0.2 * smooth(explosionProgress / 0.8) + (comparisonScale - 1.2) * comparison));
+    section.style.setProperty('--cross-section-opacity', String(smooth((comparison - 0.15) / 0.85)));
+    section.style.setProperty('--cross-section-offset', `${35 * (1 - comparison)}px`);
+    section.dataset.explosionProgress = explosionProgress.toFixed(3);
+    section.dataset.crossSectionProgress = comparison.toFixed(3);
+    if (comparisonEnabled) {
+      crossSection.inert = comparison < 0.5;
+      crossSection.setAttribute('aria-hidden', String(comparison < 0.5));
+    }
+    caption.inert = explosionProgress > 0.02;
+    control.disabled = explosionProgress > 0.02;
+    rollingTitle.setAttribute('aria-hidden', String(explosionProgress > 0.15));
+    title.setAttribute('aria-hidden', String(explosionProgress <= 0.15));
+    video.setAttribute('aria-hidden', String(explosionProgress <= 0.02));
+    assembledVideo.setAttribute('aria-hidden', String(explosionProgress > 0.02));
+    section.setAttribute('aria-labelledby', explosionProgress > 0.15 ? 'exploded-title' : 'mechanism-title');
+    if (explosionProgress > 0.005) player.holdAssembled();
+    desiredFrame = Math.round(explosionProgress * finalFrame);
     seekLatestFrame();
     updateLabels();
   }
@@ -76,6 +96,7 @@ function setupExplodedScroll(player) {
 
   function update() {
     if (!enabled) return;
+    comparisonScale = Math.min(1.2, scene.clientWidth * 0.52 / Math.max(1, media.offsetHeight));
     const padding = parseFloat(getComputedStyle(section).paddingTop);
     const stickyTop = parseFloat(getComputedStyle(pin).top);
     const travel = stickyTop - section.getBoundingClientRect().top - padding;
@@ -85,6 +106,22 @@ function setupExplodedScroll(player) {
     if (progress !== target && !animationFrame) animationFrame = requestAnimationFrame(tick);
   }
 
+  function arrangeCrossSection() {
+    const showComparison = enabled && wideLayout.matches;
+    if (showComparison === comparisonEnabled) return;
+    comparisonEnabled = showComparison;
+    document.body.classList.toggle('has-cross-section-transition', showComparison);
+    if (showComparison) {
+      layer.append(crossSection);
+      crossSection.inert = true;
+      crossSection.setAttribute('aria-hidden', 'true');
+    } else {
+      crossSectionHome.insertBefore(crossSection, crossSectionNext);
+      crossSection.inert = false;
+      crossSection.removeAttribute('aria-hidden');
+    }
+  }
+
   function enable() {
     if (!ready || reducedMotion.matches || enabled) return;
     enabled = true;
@@ -92,6 +129,7 @@ function setupExplodedScroll(player) {
     title.hidden = false;
     section.classList.add('has-explosion');
     document.body.classList.add('has-exploded-animation');
+    arrangeCrossSection();
     paint();
     update();
   }
@@ -101,7 +139,8 @@ function setupExplodedScroll(player) {
     cancelAnimationFrame(animationFrame);
     animationFrame = 0;
     lastTick = 0;
-    progress = target = 0;
+    progress = target = explosionProgress = 0;
+    arrangeCrossSection();
     layer.hidden = true;
     title.hidden = true;
     section.classList.remove('has-explosion');
@@ -141,7 +180,14 @@ function setupExplodedScroll(player) {
   });
   video.addEventListener('error', disable);
   window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update, { passive: true });
+  window.addEventListener('resize', () => {
+    update();
+    if (enabled && !animationFrame) paint();
+  }, { passive: true });
+  wideLayout.addEventListener('change', () => {
+    arrangeCrossSection();
+    if (enabled) { update(); paint(); }
+  });
   reducedMotion.addEventListener('change', () => {
     if (reducedMotion.matches) disable();
     else if (ready) enable();

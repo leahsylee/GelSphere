@@ -63,7 +63,7 @@ This website is licensed under a [Creative Commons Attribution-ShareAlike 4.0 In
 
 ## Page narrative and interactions
 
-The page follows the sensor story: award nomination and paper → reconstruction overview → optical principle → mechanism → exploded view and cross-section → single-frame demonstrations → GelSLAM and continuous reconstruction → experiments → project video.
+The page follows the sensor story: award finalist and paper → reconstruction overview → optical principle → mechanism → exploded view and cross-section → single-frame demonstrations → GelSLAM and continuous reconstruction → experiments → project video.
 
 The design uses borderless media sized to desktop viewport height, scroll reveals, and a gently scaling overview video. The experiment selector keeps all three headline comparisons visible while showing one detailed experiment at a time. Without JavaScript, all experiment panels appear in the page flow. Reduced-motion preferences disable automatic playback and scroll effects; content and native video controls remain usable without JavaScript.
 
@@ -95,7 +95,7 @@ It also generates poster frames and optimizes the animation videos for progressi
 
 The mechanism scene stays in view while scrolling opens the assembled sensor. Scrolling upward reverses the same movie. The mechanism caption fades out, the exploded-view title fades in, and SVG component labels appear near the final pose using the site's font. The original exploded figure remains available when reduced motion is enabled or the animation cannot load.
 
-The controls explicitly invite clicking, and the completed assembly shows a highlighted restart action and a scroll cue. Cross-section is a smaller subsection of the same sensor-design story, fading into view below the exploded model.
+The controls explicitly invite clicking, and the completed assembly shows a highlighted restart action and a scroll cue. On desktop, continued scrolling holds the final exploded frame, moves the labeled model left, and fades in the cross-section on the right with a smaller subtitle. Scrolling upward reverses the comparison before reassembling the sensor. Smaller screens keep the cross-section below the exploded view, and reduced-motion or unavailable-video fallbacks retain the static figures. The same cross-section element moves between layouts, avoiding duplicate content and labels.
 
 Render the 97-frame, 24 fps sequence from the original Blender scene, then encode it:
 

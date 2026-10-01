@@ -117,6 +117,22 @@ p { color: var(--secondary); }
 .has-exploded-animation .anatomy-layout { display: block; max-width: 560px; }
 .has-exploded-animation :is(.exploded-figure, .exploded-fallback) { display: none; }
 .has-exploded-animation .cross-section-figure { margin-top: 0; }
+.has-cross-section-transition .has-explosion { height: calc(80px + var(--pin-height) + 220svh); }
+.has-cross-section-transition .anatomy { display: none; }
+.has-cross-section-transition .explosion-layer .cross-section-subsection {
+  position: absolute;
+  left: 58%;
+  top: 46%;
+  width: 42%;
+  max-width: 480px;
+  margin: 0;
+  opacity: var(--cross-section-opacity, 0);
+  transform: translate(var(--cross-section-offset, 35px), -50%);
+  transition: none;
+  pointer-events: auto;
+}
+.has-cross-section-transition .cross-section-subsection h3 { font-size: clamp(22px, 2vw, 28px); margin-bottom: 22px; }
+.has-cross-section-transition .cross-section-figure figcaption { font-size: clamp(14px, 1.35vw, 18px); margin-top: 18px; }
 
 /* Anatomy and experiments keep their scientific figures at a readable scale. */
 .anatomy-layout { display: grid; grid-template-columns: .8fr 1fr; gap: 50px; align-items: start; }
